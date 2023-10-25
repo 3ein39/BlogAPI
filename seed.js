@@ -15,7 +15,7 @@ console.log('Connected to MongoDB');
 
 // create a user
 const user = new User({
-    name: 'Hussein Hany',
+    username: 'Hussein Hany',
     email: 'hussein.hany.cs@gmail.com',
     password: '123456'
 });
@@ -39,6 +39,12 @@ const comment = new Comment({
 
 // save the user
 async function run() {
+
+    // delete all users, posts and comments
+    await User.deleteMany({});
+    await Post.deleteMany({});
+    await Comment.deleteMany({});
+
     await user.save();
     await post.save();
     await comment.save();
