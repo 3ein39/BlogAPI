@@ -38,13 +38,13 @@ app.post('/api/posts', authMiddleware, async (req, res) => {
    res.json({message : "Post created"});
 });
 
-app.post('api/user/login', async (req, res) => {
+app.post('/api/user/login', async (req, res) => {
     console.log(req.body);
-    let {name, password} = req.body;
+    let {username, password} = req.body;
 
     // check if user exists
-    let result = await User.findOne({username: name, password});
-    if (!result) {
+    let user = await User.findOne({username, password});
+    if (!user) {
         return res.status(400).send('User not found');
     }
 
@@ -54,7 +54,7 @@ app.post('api/user/login', async (req, res) => {
         username: user.username,
     };
 
-    jwt.sign(payload, secretKey, { expiresIn: '1h' }, (err, token) => {
+    jwt.sign(payload, secretKey,  (err, token) => {
         if (err) {
             return res.status(500).json({ msg: 'JWT generation failed' });
         }
